@@ -48,3 +48,28 @@ ami = data.aws_ami.amazon_linux.id
 In one line
 👉 Resource = create
 👉 Data source = read existing
+
+
+////////////////////
+
+data "aws_ami" "amazon_linux" {
+  most_recent = true
+
+  filter {
+    name   = "name"
+    values = ["amzn2-ami-hvm-*"]
+  }
+
+  owners = ["amazon"]
+}
+
+Why both are used together (important)
+
+If you use only filter ❌
+→ Terraform may pick an old AMI
+
+If you use only most_recent ❌
+→ Terraform may pick the latest wrong AMI
+
+✅ Filter + most_recent
+→ Latest correct AMI
